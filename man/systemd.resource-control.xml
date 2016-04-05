@@ -199,10 +199,11 @@
           Megabytes, Gigabytes, or Terabytes (with the base 1024),
           respectively. If assigned the special value
           <literal>infinity</literal>, no memory limit is applied. This
-          controls the <literal>memory.limit_in_bytes</literal>
+          controls the <literal>memory.max</literal>
           control group attribute. For details about this control
-          group attribute, see <ulink
-          url="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">memory.txt</ulink>.</para>
+          group attribute, see Section 5-2 "Memory" in the <ulink
+          url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">
+          kernel unified cgroup documentation</ulink>.</para>
 
           <para>Implies <literal>MemoryAccounting=true</literal>.</para>
         </listitem>
@@ -238,8 +239,9 @@
           <literal>infinity</literal>, no tasks limit is applied. This
           controls the <literal>pids.max</literal> control group
           attribute. For details about this control group attribute,
-          see <ulink
-          url="https://www.kernel.org/doc/Documentation/cgroups/pids.txt">pids.txt</ulink>.</para>
+          see Section FIXME in the <ulink
+          url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">
+          kernel unified cgroup documentation</ulink>.</para>
 
           <para>Implies <literal>TasksAccounting=true</literal>. The
           system default for this setting may be controlled with
@@ -269,11 +271,13 @@
 
         <listitem><para>Set the default overall block I/O weight for
         the executed processes. Takes a single weight value (between
-        10 and 1000) to set the default block I/O weight. This controls
-        the <literal>blkio.weight</literal> control group attribute,
-        which defaults to 500. For details about this control group
-        attribute, see <ulink
-        url="https://www.kernel.org/doc/Documentation/cgroups/blkio-controller.txt">blkio-controller.txt</ulink>.
+        1 and 10000) to set the default block I/O weight. This controls
+        the <literal>io.weight</literal> control group attribute
+        (FIXME: not implemented in systemd),
+        which defaults to 100. For details about this control group
+        attribute, see Section 5-3 "IO Interface Files" in the <ulink
+        url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">
+        kernel unified cgroup documentation</ulink>.
         The available I/O bandwidth is split up among all units within
         one slice relative to their block I/O weight.</para>
 
@@ -296,16 +300,19 @@
           <para>Set the per-device overall block I/O weight for the
           executed processes. Takes a space-separated pair of a file
           path and a weight value to specify the device specific
-          weight value, between 10 and 1000. (Example: "/dev/sda
+          weight value, between 1 and 10000. (Example: "/dev/sda
           500"). The file path may be specified as path to a block
           device node or as any other file, in which case the backing
           block device of the file system of the file is
           determined. This controls the
-          <literal>blkio.weight_device</literal> control group
-          attribute, which defaults to 1000. Use this option multiple
+          <literal>io.weight</literal> control group
+          attribute
+          (FIXME: not implemented in systemd),
+          which defaults to 100. Use this option multiple
           times to set weights for multiple devices. For details about
-          this control group attribute, see <ulink
-          url="https://www.kernel.org/doc/Documentation/cgroups/blkio-controller.txt">blkio-controller.txt</ulink>.</para>
+          this control group attribute, see Section 5-3 "IO Interface Files" in
+          the <ulink url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">
+          kernel unified cgroup documentation</ulink>.</para>
 
           <para>Implies
           <literal>BlockIOAccounting=true</literal>.</para>
@@ -328,13 +335,15 @@
           Gigabytes, or Terabytes, respectively, to the base of
           1000. (Example:
           "/dev/disk/by-path/pci-0000:00:1f.2-scsi-0:0:0:0 5M"). This
-          controls the <literal>blkio.read_bps_device</literal> and
-          <literal>blkio.write_bps_device</literal> control group
-          attributes. Use this option multiple times to set bandwidth
+          controls the <literal>io.max rbps</literal> and
+          <literal>io.max wbps</literal> control group
+          attributes
+          (FIXME: not implemented in systemd).
+          Use this option multiple times to set bandwidth
           limits for multiple devices. For details about these control
-          group attributes, see <ulink
-          url="https://www.kernel.org/doc/Documentation/cgroups/blkio-controller.txt">blkio-controller.txt</ulink>.
-          </para>
+          group attributes, see Section 5-3 "IO Interface Files" in the
+          <ulink url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">
+          kernel unified cgroup documentation</ulink>.</para>
 
           <para>Implies
           <literal>BlockIOAccounting=true</literal>.</para>
@@ -353,11 +362,14 @@
           <emphasis>r</emphasis>eading, <emphasis>w</emphasis>riting,
           or creation of the specific device node(s) by the unit
           (<emphasis>m</emphasis>knod), respectively. This controls
-          the <literal>devices.allow</literal> and
-          <literal>devices.deny</literal> control group
-          attributes. For details about these control group
-          attributes, see <ulink
-          url="https://www.kernel.org/doc/Documentation/cgroups/devices.txt">devices.txt</ulink>.</para>
+          the <literal>FIXME.allow</literal> and
+          <literal>FIXME.deny</literal> control group
+          attributes
+          (FIXME: not implemented in kernel and systemd).
+          For details about these control group
+          attributes, see Section FIXME in the
+          <ulink url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">
+          kernel unified cgroup documentation</ulink>.</para>
 
           <para>The device node specifier is either a path to a device
           node in the file system, starting with
@@ -482,10 +494,7 @@
       <citerefentry><refentrytitle>systemd.directives</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
       <citerefentry><refentrytitle>systemd.special</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
       The documentation for control groups and specific controllers in the Linux kernel:
-      <ulink url="https://www.kernel.org/doc/Documentation/cgroups/cgroups.txt">cgroups.txt</ulink>,
-      <ulink url="https://www.kernel.org/doc/Documentation/cgroups/cpuacct.txt">cpuacct.txt</ulink>,
-      <ulink url="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">memory.txt</ulink>,
-      <ulink url="https://www.kernel.org/doc/Documentation/cgroups/blkio-controller.txt">blkio-controller.txt</ulink>.
+      <ulink url="https://www.kernel.org/doc/Documentation/cgroup-v2.txt">cgroup-v2.txt</ulink>.
     </para>
   </refsect1>
 </refentry>
